@@ -72,9 +72,9 @@ in an application, like
 Converting an application, which already exists in digicampipe into a `ctapipe.Tool`
 is in my opinion the most straight forward step to "put digicampipe into ctapipe".
 
-# Converting a Application to a Tool what's missing?
+# Converting an Application to a Tool what's missing?
 
-As an example, I looked at [`pipeline_crab.py`](https://github.com/calispac/digicampipe/blob/master/pipeline_crab.py).
+[`pipeline_crab.py`](https://github.com/calispac/digicampipe/blob/master/pipeline_crab.py)serves as an example.
 
 ## event_source
 
@@ -83,11 +83,11 @@ Up to line ~100 we see a lot of configurations. This will hopefully be nicely ha
 The first "turning wheel" of the application is the [event_source](https://github.com/calispac/digicampipe/blob/master/pipeline_crab.py#L95). So we need to get a file reader into
 ctapipe.
 
-I've learned that "cocov" (Victor??) already opened a pull request long ago,
-trying to get the SST1M protozfits reader into ctapipe.
+"cocov" (Victor??) already opened a pull request long ago, trying to get the SST1M protozfits reader into ctapipe. It went "stale" despite it being nearly "done".
+This PR was [revived and reworked](https://github.com/cta-observatory/ctapipe/pull/598), so the ctapipe tests pass, but is still not merged...
 
-I also opened an issue asking how such camera specific readers should find their way
-into ctapipe: [ctapipe#590](https://github.com/cta-observatory/ctapipe/issues/590)
+Subsequently and issue was opened asking how such camera specific readers should find their way into ctapipe:
+[ctapipe#590](https://github.com/cta-observatory/ctapipe/issues/590)
 
 The outcome requirements were basically this:
 - have the high-level event sources inside ctapipe/io
@@ -95,7 +95,7 @@ The outcome requirements were basically this:
 - don't require users to have the low-level libraries (make the import fail gracefully, so they are optional)
 - in the CI system, make sure we do have all the low-level libraries so the testing can be made.
 
-I translated this into this list for SST1M's protozfits reader
+A translation of this list for SST1M's protozfits reader might be:
 
 - [x] high-level event source in ctapipe.io, like [in #598 in ctapipe.io.zfits](https://github.com/dneise/ctapipe/blob/3a8df3561a49d8eb777cc1b9eab56fd3f9cd459d/ctapipe/io/zfits.py#L29)
 - [x] external package, like [as this tar ball](http://www.isdc.unige.ch/~lyard/repo/ProtoZFitsReader-0.42.Python3.5.Linux.x86_64.tar.gz)
@@ -104,13 +104,9 @@ I translated this into this list for SST1M's protozfits reader
 - [x] small test files.
 - [x] Keep future refactoring in mind.
 
-### Continous Integration
-
 In order to have trust in software, this software must always bring a quick, sure and repeatable proof, that every element of the code works as it should.
 
-For the protozfitsreader we just started to write tests, so verify it is working correctly.
-
-While writing these tests, reviews of the protozfitsreader revealed some bugs, which lead to an incompatibility with Python 3.6.
+For the protozfitsreader we just started to write tests, so verify it is working correctly. While writing these tests, reviews of the protozfitsreader revealed some bugs, which lead to an incompatibility with Python 3.6.
 
 This work is not yet merged into the master, but one can have a look at the tests here: https://travis-ci.org/calispac/digicampipe/builds/315002869#L1000
 
@@ -120,5 +116,9 @@ There are two reasons for this, I see at the moment:
 
  - The C++ protozfitsreader is difficult to build, so Etienne thankfully provided prebuild binaries. At the moment these are for Py3.5, but he can also provide them for Py3.6 if needed.
 
- - According to Etienne there were tests being done with Py3.6 once, and the results were not correct. I believe this is related to this issue https://github.com/calispac/digicampipe/issues/44, which will be solved by merging this pull request https://github.com/calispac/digicampipe/pull/45
+ - According to Etienne there were tests being done with Py3.6 once, and the results were not correct. I believe this is related to
+ [digicampipe isse#44](https://github.com/calispac/digicampipe/issues/44),
+ which will be solved by merging this [digicam PR#45](https://github.com/calispac/digicampipe/pull/45)
+
+More tests are always better, but this seems to be a great starting position.
 
