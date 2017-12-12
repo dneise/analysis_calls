@@ -47,8 +47,9 @@ So what are Components?
 `ctapipe.core.Component` can **configure itself** from a config file and
 it provides **logging**.
 
-However, in [ctapipe#591](https://github.com/cta-
-observatory/ctapipe/issues/591) we agreed that `Processors` will come at some
+However, in
+[ctapipe#591](https://github.com/cta-observatory/ctapipe/issues/591)
+we agreed that `Processors` will come at some
 point, and they will be *thin wrappers* around the actual work-functions which
 can be just simple functions, taking any input (from an event or other
 configuration) and returning any output (into the pipeline). The `Processor`
