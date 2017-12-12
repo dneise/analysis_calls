@@ -19,10 +19,10 @@ ctapipe.Containers are already used inside digicampipe e.g. [the R0CameraContain
 
 Still the question remained: were they used "the correct way"?
 
-No issue opened here yet, cta-observatory/ctapipe#600 is related.
+No issue opened here yet, [ctapipe#600](https://github.com/cta-observatory/ctapipe/issues/600) is related.
 
 However, I want to comment regarding the "stable" predicate:
-In cta-observatory/ctapipe#590 Karl Kosack said:
+In [ctapipe#590](https://github.com/cta-observatory/ctapipe/issues/590) Karl Kosack said:
 
 > Remember also that we are going to soon fully re-factor the Container class hierarchy, which means also refactoring the event source generators or FileReader classes
 
@@ -47,11 +47,13 @@ So what are Components?
 `ctapipe.core.Component` can **configure itself** from a config file and
 it provides **logging**.
 
-However, in cta-observatory/ctapipe#591 we agreed that `Processors` will come
-at some point, and they will be *thin wrappers* around the actual work-functions
-which can be just simple functions, taking any input (from an event or other configuration)
-and returning any output (into the pipeline). The `Processor` wraps that simple function
-so that it can finally be used inside a more formalized pipeline.
+However, in [ctapipe#591](https://github.com/cta-
+observatory/ctapipe/issues/591) we agreed that `Processors` will come at some
+point, and they will be *thin wrappers* around the actual work-functions which
+can be just simple functions, taking any input (from an event or other
+configuration) and returning any output (into the pipeline). The `Processor`
+wraps that simple function so that it can finally be used inside a more
+formalized pipeline.
 
 
 
@@ -84,7 +86,7 @@ I've learned that "cocov" (Victor??) already opened a pull request long ago,
 trying to get the SST1M protozfits reader into ctapipe.
 
 I also opened an issue asking how such camera specific readers should find their way
-into ctapipe: cta-observatory/ctapipe#590
+into ctapipe: [ctapipe#590](https://github.com/cta-observatory/ctapipe/issues/590)
 
 The outcome requirements were basically this:
 - have the high-level event sources inside ctapipe/io
