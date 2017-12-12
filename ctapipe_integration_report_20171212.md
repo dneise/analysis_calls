@@ -122,3 +122,46 @@ There are two reasons for this, I see at the moment:
 
 More tests are always better, but this seems to be a great starting position.
 
+## Instrument Information
+
+In addiotion to the actual events any worker function needs also access to "metadata" like, the geometry of the telescope and camera. In digicampipe this metadata
+was "copied" event-wise into the event stream by the `event_source`, like here:
+
+```python
+def zfits_event_source(url, geometry):
+    patch_matrix = compute_patch_matrix(geometry)
+    cluster_7_matrix = compute_cluster_matrix_7(geometry)
+    cluster_19_matrix = compute_cluster_matrix_19(geometry)
+
+    for event in ZFile(url):
+        data = DataContainer()
+        data.r0.event_id = event.id
+        data.r0.tel.adc_samples = event.adc_samples
+
+        data.inst.geom = geometry
+        data.inst.cluster_matrix_7 = cluster_7_matrix
+        data.inst.cluster_matrix_19 = cluster_19_matrix
+        data.inst.patch_matrix = patch_matrix
+        yield data
+```
+
+One sees here how `geometry` (and static depenendcies of it) are simply "hooked"
+into each event (DataContainer) and then pushed out towards the worker functions.
+
+This way, the workers find **inside the data thing** all the information they need
+to do their job.
+
+This is how Cyril has done it in digicampipe, and I think that is very nice and useful.
+However this is not how it is done in ctapipe. In fact I have no idea how they
+plan to do it in ctapipe, there is a discussion about it in [ctapipe issue#600](https://github.com/cta-observatory/ctapipe/issues/600)
+
+I think having each worker function, reach out to a database and get the meta data it needs is asking too much of a worker function.
+
+## worker functions
+
+As I was still working on the tests of the protozfitsreader until this morning
+I have not event started to look at any worker functions.
+
+## the sink
+
+Also nothing is done
